@@ -9,6 +9,11 @@ let moleSpeed = 900;
 
 function randomHole() {
     const holes = document.querySelectorAll(".hole");
+    console.log("Holes found:", holes); // Debugging
+    if (holes.length === 0) {
+        console.error("No holes found in the DOM!");
+        return null;
+    }
     const randomIndex = Math.floor(Math.random() * holes.length);
     return holes[randomIndex];
 }
@@ -28,6 +33,7 @@ function showMole() {
         return;
     }
 
+    console.log("Adding mole to hole:", hole); // Debugging
     hole.appendChild(mole);
     activeMole = mole;
 }
