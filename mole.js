@@ -16,6 +16,9 @@ function showMole() {
     }
 
     const mole = document.createElement("div");
+    let level = 1;
+    let scoreGoal = 10;
+    let moleSpeed = 900;
     mole.classList.add("mole");
     mole.onclick = hitMole;
 
@@ -23,36 +26,61 @@ function showMole() {
     hole.appendChild(mole);
     activeMole = mole;
 }
+    function startGame() {
+        // Clear any existing timers to prevent multiple intervals
+        if (moleTimer) clearInterval(moleTimer);
+        if (gameTimer) clearInterval(gameTimer);
 
-function hitMole() {
-    score++;
-    document.getElementById("score").textContent = score;
-    activeMole.remove();
-    activeMole = null;
-}
+        score = 0;
+        timeLeft = 30;
+        level = 1;
+        scoreGoal = 10;
+        moleSpeed = 900;
+        document.getElementById("score").textContent = score;
+        document.getElementById("time-left").textContent = timeLeft;
+        document.getElementById("level").textContent = level;
 
-function startGame() {
-    console.log("Start Game button clicked"); // Debugging log
-    // Clear any existing timers to prevent multiple intervals
-    if (moleTimer) clearInterval(moleTimer);
-    if (gameTimer) clearInterval(gameTimer);
+        moleTimer = setInterval(showMole, moleSpeed);
+        gameTimer = setInterval(countdown, 1000);
 
     score = 0;
-    timeLeft = 30;
-    document.getElementById("score").textContent = score;
-    document.getElementById("time-left").textContent = timeLeft;
+    function hitMole() {
+        score++;
+        document.getElementById("score").textContent = score;
+        activeMole.remove();
+        activeMole = null;
 
-    moleTimer = setInterval(showMole, 900);
+        // Check for level up
+        if (score >= scoreGoal) {
+            nextLevel();
+        }
     gameTimer = setInterval(countdown, 1000);
 }
+    function countdown() {
+        timeLeft--;
+        document.getElementById("time-left").textContent = timeLeft;
 
-function countdown() {
-    timeLeft--;
-    document.getElementById("time-left").textContent = timeLeft;
-
-    if (timeLeft === 0) {
+        if (timeLeft === 0) {
+            clearInterval(moleTimer);
+            clearInterval(gameTimer);
+            alert(`Game Over! Final Score: ${score} (Level ${level})`);
+        }
+    }
+    }
+    function nextLevel() {
         clearInterval(moleTimer);
         clearInterval(gameTimer);
-        alert(`Game Over! Final Score: ${score}`);
-    }
+        level++;
+        document.getElementById("level").textContent = level;
+        // Increase difficulty: faster moles, higher score goal
+        moleSpeed = Math.max(400, moleSpeed - 150); // minimum speed limit
+        scoreGoal += 10;
+        score = 0;
+        timeLeft = 30;
+        document.getElementById("score").textContent = score;
+        document.getElementById("time-left").textContent = timeLeft;
+
+        alert(`Level ${level}! Moles are faster!`);
+        moleTimer = setInterval(showMole, moleSpeed);
+        gameTimer = setInterval(countdown, 1000);
 }
