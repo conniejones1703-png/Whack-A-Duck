@@ -10,7 +10,6 @@ let moleSpeed = 900;
 
 function randomHole() {
     const holes = document.querySelectorAll(".hole");
-    console.log("Holes found:", holes); // Debugging
     if (holes.length === 0) {
         console.error("No holes found in the DOM!");
         return null;
@@ -30,11 +29,8 @@ function showMole() {
 
     const hole = randomHole();
     if (!hole) {
-        console.error("No valid hole found!");
         return;
     }
-
-    console.log("Adding mole to hole:", hole); // Debugging
     hole.appendChild(mole);
     activeMole = mole;
 }
@@ -57,9 +53,7 @@ function startGame() {
     gameTimer = setInterval(countdown, 1000);
 }
 
-function hitMole() {
-    score++;
-    document.getElementById("score").textContent = score;
+
 function hitMole() {
     score++;
     document.getElementById("score").textContent = score;
@@ -73,10 +67,7 @@ function hitMole() {
         nextLevel();
     }
 }
-    document.getElementById("time-left").textContent = timeLeft;
 
-    if (timeLeft === 0) {
-    activeMole = null;
 function countdown() {
     timeLeft--;
     document.getElementById("time-left").textContent = timeLeft;
@@ -87,19 +78,7 @@ function countdown() {
         alert(`Game Over! Final Score: ${score} (Level ${level})`);
     }
 }
-    // Increase difficulty: faster moles, higher score goal
-    moleSpeed = Math.max(400, moleSpeed - 150); // minimum speed limit
-    scoreGoal += 10;
-    score = 0;
-    timeLeft = 30;
-    document.getElementById("score").textContent = score;
-    document.getElementById("time-left").textContent = timeLeft;
 
-    alert(`Level ${level}! Moles are faster!`);
-    moleTimer = setInterval(showMole, moleSpeed);
-    gameTimer = setInterval(countdown, 1000);
-function nextLevel() {
-    clearInterval(moleTimer);
 function nextLevel() {
     clearInterval(moleTimer);
     clearInterval(gameTimer);
