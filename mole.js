@@ -84,7 +84,7 @@ function nextLevel() {
     clearInterval(gameTimer);
     level++;
     document.getElementById("level").textContent = level;
-    moleSpeed = Math.max(400, moleSpeed - 150);
+    moleSpeed = Math.max(400, moleSpeed - 50);
     scoreGoal += 10;
     score = 0;
     timeLeft = 30;
