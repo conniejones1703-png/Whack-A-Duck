@@ -1,4 +1,3 @@
-
 let score = 0;
 let timeLeft = 30;
 let moleTimer = null;
@@ -10,6 +9,7 @@ let moleSpeed = 900;
 
 function randomHole() {
     const holes = document.querySelectorAll(".hole");
+    console.log("Holes found:", holes); // Debugging
     if (holes.length === 0) {
         console.error("No holes found in the DOM!");
         return null;
@@ -23,20 +23,22 @@ function showMole() {
         activeMole.remove();
     }
 
-    const mole = document.createElement("div");
+    const mole = document.createElement("div"); 
     mole.classList.add("mole");
     mole.onclick = hitMole;
 
     const hole = randomHole();
     if (!hole) {
+        console.error("No valid hole found!");
         return;
     }
+
+    console.log("Adding mole to hole:", hole); // Debugging
     hole.appendChild(mole);
     activeMole = mole;
 }
 
 function startGame() {
-    // Clear any existing timers to prevent multiple intervals
     if (moleTimer) clearInterval(moleTimer);
     if (gameTimer) clearInterval(gameTimer);
 
@@ -53,7 +55,6 @@ function startGame() {
     gameTimer = setInterval(countdown, 1000);
 }
 
-
 function hitMole() {
     score++;
     document.getElementById("score").textContent = score;
@@ -62,7 +63,6 @@ function hitMole() {
     }
     activeMole = null;
 
-    // Check for level up
     if (score >= scoreGoal) {
         nextLevel();
     }
@@ -84,15 +84,14 @@ function nextLevel() {
     clearInterval(gameTimer);
     level++;
     document.getElementById("level").textContent = level;
-    // Increase difficulty: faster moles, higher score goal
-    moleSpeed = Math.max(400, moleSpeed - 150); // minimum speed limit
+    moleSpeed = Math.max(400, moleSpeed - 150);
     scoreGoal += 10;
     score = 0;
     timeLeft = 30;
     document.getElementById("score").textContent = score;
     document.getElementById("time-left").textContent = timeLeft;
 
-    alert(`Level ${level}! Moles are faster!`);
+    alert(`Level ${level}! Ducks are faster!`);
     moleTimer = setInterval(showMole, moleSpeed);
     gameTimer = setInterval(countdown, 1000);
 }
