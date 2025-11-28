@@ -84,7 +84,14 @@ function nextLevel() {
     clearInterval(gameTimer);
     level++;
     document.getElementById("level").textContent = level;
-    moleSpeed = Math.max(400, moleSpeed - 50);
+
+    // Adjust mole speed decrement based on level
+    if (level > 10) {
+        moleSpeed = Math.max(400, moleSpeed - 20); // Decrease speed less aggressively after level 10
+    } else {
+        moleSpeed = Math.max(400, moleSpeed - 50); // Normal decrement for levels 1-10
+    }
+
     scoreGoal = 10;
     score = 0;
     timeLeft = 30;
